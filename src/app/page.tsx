@@ -28,6 +28,8 @@ export default function Home() {
     tokens: 0,
     nfts: 0,
     complexity: 0,
+    experience: 'New',
+    recentActivity: 'N/A',
   });
   const [personality, setPersonality] = useState(personalityTypes[0]);
   const [loading, setLoading] = useState(false);
@@ -118,6 +120,14 @@ export default function Home() {
                   <h3 className="font-medium text-gray-600">NFTs</h3>
                   <p className="text-2xl font-bold">{walletStats.nfts}</p>
                 </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-600">Experience</h3>
+                  <p className="text-2xl font-bold">{walletStats.experience}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-600">Last Active</h3>
+                  <p className="text-2xl font-bold">{walletStats.recentActivity}</p>
+                </div>
               </div>
 
               <h2 className="text-2xl font-semibold mb-4">You Are</h2>
@@ -132,6 +142,10 @@ export default function Home() {
                   <span className="font-medium text-gray-600">Degen Score: </span>
                   <span className="text-xl font-bold">{walletStats.complexity}/10</span>
                 </div>
+              </div>
+
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* ... existing stats cards ... */}
               </div>
             </>
           )}
