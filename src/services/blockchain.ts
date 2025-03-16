@@ -60,12 +60,17 @@ export async function analyzeWallet(address: string): Promise<WalletStats> {
     ).size;
 
     // Calculate complexity score based on various factors
+    const baseScore = (
+      Number(nonce) / 50 + // Transaction weight (1 point per 50 transactions)
+      uniqueContracts / 5 + // Contract interaction weight (1 point per 5 contracts)
+      totalTokens / 4 + // Token holdings weight (1 point per 4 tokens)
+      nfts / 5 // NFT holdings weight (1 point per 5 NFTs)
+    );
+
+    // Apply exponential difficulty curve
     const complexityScore = Math.min(
       Math.floor(
-        (Number(nonce) / 20 + // Transaction weight (1 point per 20 transactions)
-        uniqueContracts / 3 + // Contract interaction weight (1 point per 3 contracts)
-        totalTokens / 2 + // Token holdings weight (1 point per 2 tokens)
-        nfts / 2) // NFT holdings weight (1 point per 2 NFTs)
+        Math.pow(baseScore, 0.7) // Apply power curve to make higher levels harder
       ),
       10
     );

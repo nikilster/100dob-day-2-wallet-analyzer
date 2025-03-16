@@ -32,6 +32,12 @@ export default function Home() {
   const [personality, setPersonality] = useState(personalityTypes[0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Handle mounting state
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Update personality when wallet stats change
   useEffect(() => {
@@ -62,8 +68,13 @@ export default function Home() {
     }
   };
 
+  // Return null on server-side or before mounting
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <div className="max-w-4xl mx-auto" key={address || 'disconnected'}>
+    <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Nikil's Wallet Ranking Analyzer</h1>
         <p className="text-xl text-gray-600">See how degen you are 😎</p>
@@ -96,7 +107,7 @@ export default function Home() {
                   <p className="text-2xl font-bold">{walletStats.transactions}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-600">Smart Contracts</h3>
+                  <h3 className="font-medium text-gray-600">Smart Contract Interactions</h3>
                   <p className="text-2xl font-bold">{walletStats.contracts}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -109,10 +120,12 @@ export default function Home() {
                 </div>
               </div>
 
+              <h2 className="text-2xl font-semibold mb-4">You Are</h2>
+              
               <div className="text-center p-6 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg">
                 <div className="text-6xl mb-4">{personality.image}</div>
                 <h3 className="text-2xl font-bold mb-2">
-                  You are: {personality.title}
+                  {personality.title}
                 </h3>
                 <p className="text-gray-600 mb-4">{personality.description}</p>
                 <div className="inline-block bg-white px-4 py-2 rounded-full">
