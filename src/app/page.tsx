@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import { analyzeWallet, WalletStats } from '../services/blockchain';
 
 // Personality types based on crypto experience
 const personalityTypes = [
-  { level: 0, title: "Amish", image: "🚫", description: "What's a computer?" },
+  { level: 0, title: "Amish", image: "🚫", description: "What&apos;s a computer?" },
   { level: 1, title: "Peter Schiff", image: "🪙", description: "Still thinks crypto is a Ponzi scheme" },
   { level: 2, title: "Elizabeth Warren", image: "👩‍⚖️", description: "Thinks crypto is only for criminals" },
-  { level: 3, title: "Jim Cramer", image: "📺", description: "Finally excited about crypo" },
+  { level: 3, title: "Jim Cramer", image: "📺", description: "Finally excited about crypto" },
   { level: 4, title: "Mark Cuban", image: "🦈", description: "Got rugged but still believes" },
   { level: 5, title: "Gary Gensler", image: "👨‍🏫", description: "Taught crypto at MIT, now regulates it" },
   { level: 6, title: "Sam Bankman-Fried", image: "👨‍🦱", description: "Started off solid" },
@@ -47,13 +47,7 @@ export default function Home() {
     setPersonality(personalityTypes[score]);
   }, [walletStats.complexity]);
 
-  useEffect(() => {
-    if (isConnected && address) {
-      fetchWalletStats();
-    }
-  }, [address, isConnected]);
-
-  const fetchWalletStats = async () => {
+  const fetchWalletStats = useCallback(async () => {
     if (!address) return;
     
     setLoading(true);
@@ -68,7 +62,13 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [address]);
+
+  useEffect(() => {
+    if (isConnected && address) {
+      fetchWalletStats();
+    }
+  }, [address, isConnected, fetchWalletStats]);
 
   // Return null on server-side or before mounting
   if (!mounted) {
