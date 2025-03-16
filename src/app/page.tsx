@@ -1,103 +1,129 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
+import { analyzeWallet, WalletStats } from '../services/blockchain';
+
+// Personality types based on crypto experience
+const personalityTypes = [
+  { level: 0, title: "Amish", image: "🚫", description: "What's a computer?" },
+  { level: 1, title: "Peter Schiff", image: "🪙", description: "Still thinks crypto is a Ponzi scheme" },
+  { level: 2, title: "Elizabeth Warren", image: "👩‍⚖️", description: "Thinks crypto is only for criminals" },
+  { level: 3, title: "Jim Cramer", image: "📺", description: "Changes opinion on crypto every 5 minutes" },
+  { level: 4, title: "Mark Cuban", image: "🦈", description: "Got rugged but still believes" },
+  { level: 5, title: "Gary Gensler", image: "👨‍🏫", description: "Taught crypto at MIT, now regulates it" },
+  { level: 6, title: "Sam Bankman-Fried", image: "👨‍🦱", description: "Started off solid" },
+  { level: 7, title: "CZ Binance", image: "🔄", description: "Funds are SAFU" },
+  { level: 8, title: "Do Kwon", image: "🌕", description: "Up and to the right!?!" },
+  { level: 9, title: "Vitalik Buterin", image: "👨‍💻", description: "Created Ethereum in his sleep" },
+  { level: 10, title: "Satoshi Nakamoto", image: "👻", description: "The one who started it all" },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { address, isConnected } = useAccount();
+  const [walletStats, setWalletStats] = useState<WalletStats>({
+    transactions: 0,
+    contracts: 0,
+    tokens: 0,
+    nfts: 0,
+    complexity: 0,
+  });
+  const [personality, setPersonality] = useState(personalityTypes[0]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Update personality when wallet stats change
+  useEffect(() => {
+    const score = Math.min(Math.floor(walletStats.complexity), 10);
+    setPersonality(personalityTypes[score]);
+  }, [walletStats.complexity]);
+
+  useEffect(() => {
+    if (isConnected && address) {
+      fetchWalletStats();
+    }
+  }, [address, isConnected]);
+
+  const fetchWalletStats = async () => {
+    if (!address) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const stats = await analyzeWallet(address);
+      setWalletStats(stats);
+    } catch (err) {
+      setError('Failed to analyze wallet. Please try again later.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto" key={address || 'disconnected'}>
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4">Nikil's Wallet Ranking Analyzer</h1>
+        <p className="text-xl text-gray-600">See how degen you are 😎</p>
+      </div>
+
+      <div className="flex justify-center mb-8">
+        <ConnectButton />
+      </div>
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      )}
+
+      {isConnected && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Analyzing your wallet...</p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-2xl font-semibold mb-4">Your Wallet Stats</h2>
+              
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-600">Transactions</h3>
+                  <p className="text-2xl font-bold">{walletStats.transactions}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-600">Smart Contracts</h3>
+                  <p className="text-2xl font-bold">{walletStats.contracts}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-600">Unique Tokens</h3>
+                  <p className="text-2xl font-bold">{walletStats.tokens}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-600">NFTs</h3>
+                  <p className="text-2xl font-bold">{walletStats.nfts}</p>
+                </div>
+              </div>
+
+              <div className="text-center p-6 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg">
+                <div className="text-6xl mb-4">{personality.image}</div>
+                <h3 className="text-2xl font-bold mb-2">
+                  You are: {personality.title}
+                </h3>
+                <p className="text-gray-600 mb-4">{personality.description}</p>
+                <div className="inline-block bg-white px-4 py-2 rounded-full">
+                  <span className="font-medium text-gray-600">Degen Score: </span>
+                  <span className="text-xl font-bold">{walletStats.complexity}/10</span>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
-}
+} 
