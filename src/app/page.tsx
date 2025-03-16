@@ -109,7 +109,7 @@ export default function Home() {
                   <p className="text-2xl font-bold">{walletStats.transactions}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-600">Smart Contract Interactions</h3>
+                  <h3 className="font-medium text-gray-600">Smart Contracts Interacted With</h3>
                   <p className="text-2xl font-bold">{walletStats.contracts}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
