@@ -10,7 +10,7 @@ const personalityTypes = [
   { level: 0, title: "Amish", image: "🚫", description: "What's a computer?" },
   { level: 1, title: "Peter Schiff", image: "🪙", description: "Still thinks crypto is a Ponzi scheme" },
   { level: 2, title: "Elizabeth Warren", image: "👩‍⚖️", description: "Thinks crypto is only for criminals" },
-  { level: 3, title: "Jim Cramer", image: "📺", description: "Changes opinion on crypto every 5 minutes" },
+  { level: 3, title: "Jim Cramer", image: "📺", description: "Finally excited about crypo" },
   { level: 4, title: "Mark Cuban", image: "🦈", description: "Got rugged but still believes" },
   { level: 5, title: "Gary Gensler", image: "👨‍🏫", description: "Taught crypto at MIT, now regulates it" },
   { level: 6, title: "Sam Bankman-Fried", image: "👨‍🦱", description: "Started off solid" },
