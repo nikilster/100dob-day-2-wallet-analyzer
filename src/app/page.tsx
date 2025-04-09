@@ -7,7 +7,7 @@ import { analyzeWallet, WalletStats } from '../services/blockchain';
 
 // Personality types based on crypto experience
 const personalityTypes = [
-  { level: 0, title: "Amish", image: "🚫", description: "What&apos;s a computer?" },
+  { level: 0, title: "Amish", image: "🚫", description: "What's a computer?" },
   { level: 1, title: "Peter Schiff", image: "🪙", description: "Still thinks crypto is a Ponzi scheme" },
   { level: 2, title: "Elizabeth Warren", image: "👩‍⚖️", description: "Thinks crypto is only for criminals" },
   { level: 3, title: "Jim Cramer", image: "📺", description: "Finally excited about crypto" },
