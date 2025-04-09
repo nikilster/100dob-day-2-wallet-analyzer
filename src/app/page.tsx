@@ -149,16 +149,18 @@ export default function Home() {
       )}
       
       {!isConnected && (
-        <div className="text-center mt-12 text-sm text-gray-500">
-          🔒 No data stored - runs in your browser only.{" "}
-          <a 
-            href="https://github.com/nikilster/100dob-day-2-wallet-analyzer" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-blue-500 hover:underline"
-          >
-            View on GitHub
-          </a>
+        <div className="text-center mt-8 p-3 bg-blue-50 border border-blue-100 rounded-lg max-w-md mx-auto">
+          <p className="text-sm text-gray-600">
+            🔒 No data stored - runs in your browser only.{" "}
+            <a 
+              href="https://github.com/nikilster/100dob-day-2-wallet-analyzer" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-blue-500 hover:underline"
+            >
+              View on GitHub
+            </a>
+          </p>
         </div>
       )}
     </div>
