@@ -149,7 +149,7 @@ export default function Home() {
       )}
       
       {!isConnected && (
-        <div className="text-center mt-8 p-3 bg-blue-50 border border-blue-100 rounded-lg max-w-md mx-auto">
+        <div className="text-center mt-8 p-3 bg-gray-50 border border-gray-100 rounded-lg max-w-md mx-auto">
           <p className="text-sm text-gray-600">
             🔒 No data stored - runs in your browser only.{" "}
             <a 
