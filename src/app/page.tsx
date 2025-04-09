@@ -80,23 +80,6 @@ export default function Home() {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Nikil&apos;s Wallet Ranking Analyzer</h1>
         <p className="text-xl text-gray-600">See how degen you are 😎</p>
-        <div className="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg max-w-2xl mx-auto">
-          <p className="text-sm text-gray-600 mb-1">
-            <span className="font-semibold">🔒 Privacy First:</span> This tool runs entirely in your browser. No wallet data is stored or transmitted to any server.
-          </p>
-          <p className="text-sm text-gray-600">
-            <span className="font-semibold">👨‍💻 Open Source:</span> You can{" "}
-            <a 
-              href="https://github.com/nikilster/100dob-day-2-wallet-analyzer" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-blue-600 hover:text-blue-800 underline"
-            >
-              view the code on GitHub
-            </a>
-            {" "}to verify.
-          </p>
-        </div>
       </div>
 
       <div className="flex justify-center mb-8">
@@ -126,7 +109,7 @@ export default function Home() {
                   <p className="text-2xl font-bold">{walletStats.transactions}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-600">Smart Contracts Interacted With</h3>
+                  <h3 className="font-medium text-gray-600">Smart Contract Interactions</h3>
                   <p className="text-2xl font-bold">{walletStats.contracts}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -160,12 +143,22 @@ export default function Home() {
                   <span className="text-xl font-bold">{walletStats.complexity}/10</span>
                 </div>
               </div>
-
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* ... existing stats cards ... */}
-              </div>
             </>
           )}
+        </div>
+      )}
+      
+      {!isConnected && (
+        <div className="text-center mt-12 text-sm text-gray-500">
+          🔒 No data stored - runs in your browser only.{" "}
+          <a 
+            href="https://github.com/nikilster/100dob-day-2-wallet-analyzer" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-blue-500 hover:underline"
+          >
+            View on GitHub
+          </a>
         </div>
       )}
     </div>
