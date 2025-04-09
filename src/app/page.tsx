@@ -80,6 +80,23 @@ export default function Home() {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Nikil&apos;s Wallet Ranking Analyzer</h1>
         <p className="text-xl text-gray-600">See how degen you are 😎</p>
+        <div className="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg max-w-2xl mx-auto">
+          <p className="text-sm text-gray-600 mb-1">
+            <span className="font-semibold">🔒 Privacy First:</span> This tool runs entirely in your browser. No wallet data is stored or transmitted to any server.
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold">👨‍💻 Open Source:</span> You can{" "}
+            <a 
+              href="https://github.com/nikilster/100dob-day-2-wallet-analyzer" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              view the code on GitHub
+            </a>
+            {" "}to verify.
+          </p>
+        </div>
       </div>
 
       <div className="flex justify-center mb-8">
